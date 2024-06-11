@@ -10,38 +10,10 @@ import {
 	TableRow,
 	Title,
 } from "@tremor/react";
-
-const users: {
-	id: string;
-	name: string;
-	lastName: string;
-	dateToAssist: Date;
-	carToPark: boolean;
-}[] = [
-	{
-		id: "1",
-		name: "Pepe",
-		lastName: "Grillo",
-		dateToAssist: new Date(2024, 0, 1),
-		carToPark: true,
-	},
-	{
-		id: "2",
-		name: "Ariel",
-		lastName: "Rojas",
-		dateToAssist: new Date(2024, 0, 1),
-		carToPark: false,
-	},
-	{
-		id: "5",
-		name: "Blanca",
-		lastName: "Rodriguez",
-		dateToAssist: new Date(2024, 4, 1),
-		carToPark: true,
-	},
-];
+import { useAppSelector } from "../hooks/store";
 
 export default function ListOfUsers() {
+	const users = useAppSelector((state) => state.users);
 	return (
 		<Card>
 			<Title>
