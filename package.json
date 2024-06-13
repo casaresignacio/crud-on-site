@@ -12,6 +12,7 @@
 		"biome:format:write": "biome format --write ./src"
 	},
 	"dependencies": {
+		"@radix-ui/react-checkbox": "^1.0.4",
 		"@reduxjs/toolkit": "^2.2.5",
 		"@tremor/react": "3.17.2",
 		"react": "^18.2.0",
