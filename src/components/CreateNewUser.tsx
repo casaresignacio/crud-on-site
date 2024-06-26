@@ -1,4 +1,4 @@
-import { Button, Card, TextInput, Title } from "@tremor/react";
+import { Badge, Button, Card, TextInput, Title } from "@tremor/react";
 import { DatePicker } from "@tremor/react";
 import { useState } from "react";
 import { Checkbox } from "../components/Checkbox";
@@ -8,6 +8,8 @@ export const CreateNewUser = () => {
 	const { addUser } = useUserAction();
 	const [dateToAssist, setDateToAssist] = useState(null);
 	const [carToPark, setCarToPark] = useState(false);
+
+	const [result, setResult] = useState<"ok" | "ko" | null>(null);
 
 	const handleChange = (e) => {
 		const { name, checked } = e.target;
@@ -28,7 +30,13 @@ export const CreateNewUser = () => {
 		const name = formData.get("name") as string;
 		const lastName = formData.get("lastName") as string;
 
+		if (!name || !lastName || !dateToAssist || !carToPark) {
+			return setResult("ko");
+		}
+
 		addUser({ name, lastName, dateToAssist, carToPark });
+		setResult("ok");
+		form.reset();
 
 		setDateToAssist(null);
 		setCarToPark(false);
@@ -53,6 +61,13 @@ export const CreateNewUser = () => {
 					<Button type="submit" className="mt-4">
 						Asistir!
 					</Button>
+					<span>
+						{result === "ok" && (
+							<Badge color="green">Guardado Correctamente</Badge>
+						)}
+
+						{result === "ko" && <Badge color="red">Error con los campos</Badge>}
+					</span>
 				</div>
 			</form>
 		</Card>
