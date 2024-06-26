@@ -3,14 +3,22 @@ import React from "react";
 
 const Checkbox = React.forwardRef<
 	React.ElementRef<typeof CheckboxPrimitives.Root>,
-	React.ComponentPropsWithoutRef<typeof CheckboxPrimitives.Root>
->(({ className, checked, ...props }, forwardedRef) => {
+	React.ComponentPropsWithoutRef<typeof CheckboxPrimitives.Root> & {
+		onChange?: (e: { target: { name: string; checked: boolean } }) => void;
+	}
+>(({ className, checked, onChange, ...props }, forwardedRef) => {
 	return (
 		<div className="flex items-center">
 			<CheckboxPrimitives.Root
 				ref={forwardedRef}
 				{...props}
 				checked={checked}
+				onCheckedChange={(checked) =>
+					onChange &&
+					onChange({
+						target: { name: props.name as string, checked: !!checked },
+					})
+				}
 				className={`relative inline-flex h-4 w-4 shrink-0 appearance-none items-center justify-center rounded border shadow-sm outline-none transition duration-100 enabled:cursor-pointer
           text-white dark:text-gray-50
           bg-white dark:bg-gray-950
@@ -31,7 +39,6 @@ const Checkbox = React.forwardRef<
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
 						>
-							{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
 							<line
 								stroke="currentColor"
 								strokeLinecap="round"
@@ -43,7 +50,6 @@ const Checkbox = React.forwardRef<
 							></line>
 						</svg>
 					) : (
-						// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 						<svg
 							width="16"
 							height="16"
@@ -51,7 +57,6 @@ const Checkbox = React.forwardRef<
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
 						>
-							{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
 							<path
 								d="M11.2 5.59998L6.79999 9.99998L4.79999 7.99998"
 								stroke="currentColor"

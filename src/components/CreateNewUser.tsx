@@ -5,8 +5,21 @@ import { Checkbox } from "../components/Checkbox";
 import { useUserAction } from "../hooks/useUsersActions";
 
 export const CreateNewUser = () => {
-	const [dateToAssist, setDateToAssist] = useState<Date | null>(null);
 	const { addUser } = useUserAction();
+	const [dateToAssist, setDateToAssist] = useState(null);
+	const [carToPark, setCarToPark] = useState(false);
+
+	const handleChange = (e) => {
+		const { name, checked } = e.target;
+		if (name === "carToPark") {
+			setCarToPark(checked);
+		}
+	};
+
+	const handleDateChange = (date) => {
+		setDateToAssist(date);
+	};
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -14,22 +27,28 @@ export const CreateNewUser = () => {
 		const formData = new FormData(form);
 		const name = formData.get("name") as string;
 		const lastName = formData.get("lastName") as string;
-		const dateToAssist = formData.get("dateToAssist") as string;
-		const carToPark = formData.get("carToPark") === "true";
 
 		addUser({ name, lastName, dateToAssist, carToPark });
+
+		setDateToAssist(null);
+		setCarToPark(false);
+		form.reset();
 	};
+
 	return (
 		<Card className="p-4">
 			<Title>Nuevo Registro</Title>
-			<form onSubmit={handleSubmit} className="space-y-4" action="">
+			<form onSubmit={handleSubmit} className="space-y-4">
 				<TextInput name="name" placeholder="Nombre" />
 				<TextInput name="lastName" placeholder="Apellido" />
-
 				<div className="relative z-10">
-					<DatePicker value={dateToAssist} onChange={setDateToAssist} />
+					<DatePicker value={dateToAssist} onValueChange={handleDateChange} />
 				</div>
-				<Checkbox name="carToPark" />
+				<Checkbox
+					checked={carToPark}
+					onChange={handleChange}
+					name="carToPark"
+				/>
 				<div>
 					<Button type="submit" className="mt-4">
 						Asistir!
