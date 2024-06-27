@@ -14,8 +14,7 @@ const Checkbox = React.forwardRef<
 				{...props}
 				checked={checked}
 				onCheckedChange={(checked) =>
-					onChange &&
-					onChange({
+					onChange?.({
 						target: { name: props.name as string, checked: !!checked },
 					})
 				}
@@ -47,9 +46,10 @@ const Checkbox = React.forwardRef<
 								x2="12"
 								y1="8"
 								y2="8"
-							></line>
+							/>
 						</svg>
 					) : (
+						// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 						<svg
 							width="16"
 							height="16"
@@ -63,7 +63,7 @@ const Checkbox = React.forwardRef<
 								strokeLinecap="round"
 								strokeLinejoin="round"
 								strokeWidth="2"
-							></path>
+							/>
 						</svg>
 					)}
 				</CheckboxPrimitives.Indicator>

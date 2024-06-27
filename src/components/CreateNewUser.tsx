@@ -6,19 +6,19 @@ import { useUserAction } from "../hooks/useUsersActions";
 
 export const CreateNewUser = () => {
 	const { addUser } = useUserAction();
-	const [dateToAssist, setDateToAssist] = useState(null);
+	const [dateToAssist, setDateToAssist] = useState<Date | null>(new Date());
 	const [carToPark, setCarToPark] = useState(false);
 
 	const [result, setResult] = useState<"ok" | "ko" | null>(null);
 
-	const handleChange = (e) => {
+	const handleChange = (e: { target: { name: string; checked: boolean } }) => {
 		const { name, checked } = e.target;
 		if (name === "carToPark") {
 			setCarToPark(checked);
 		}
 	};
 
-	const handleDateChange = (date) => {
+	const handleDateChange = (date: Date) => {
 		setDateToAssist(date);
 	};
 
@@ -50,7 +50,10 @@ export const CreateNewUser = () => {
 				<TextInput name="name" placeholder="Nombre" />
 				<TextInput name="lastName" placeholder="Apellido" />
 				<div className="relative z-10">
-					<DatePicker value={dateToAssist} onValueChange={handleDateChange} />
+					<DatePicker
+						value={dateToAssist || undefined}
+						onValueChange={handleDateChange}
+					/>
 				</div>
 				<Checkbox
 					checked={carToPark}
@@ -66,7 +69,9 @@ export const CreateNewUser = () => {
 							<Badge color="green">Guardado Correctamente</Badge>
 						)}
 
-						{result === "ko" && <Badge color="red">Error con los campos</Badge>}
+						{result === "ko" && (
+							<Badge color="red">Error con los campos </Badge>
+						)}
 					</span>
 				</div>
 			</form>
