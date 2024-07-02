@@ -6,19 +6,19 @@ import { useUserAction } from "../hooks/useUsersActions";
 
 export const CreateNewUser = () => {
 	const { addUser } = useUserAction();
-	const [dateToAssist, setDateToAssist] = useState<Date | null>(new Date());
+	const [dateToAssist, setDateToAssist] = useState<Date | undefined>(undefined);
 	const [carToPark, setCarToPark] = useState(false);
 
 	const [result, setResult] = useState<"ok" | "ko" | null>(null);
 
-	const handleChange = (e: { target: { name: string; checked: boolean } }) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, checked } = e.target;
 		if (name === "carToPark") {
 			setCarToPark(checked);
 		}
 	};
 
-	const handleDateChange = (date: Date) => {
+	const handleDateChange = (date: Date | undefined) => {
 		setDateToAssist(date);
 	};
 
@@ -38,7 +38,6 @@ export const CreateNewUser = () => {
 		setResult("ok");
 		form.reset();
 
-		setDateToAssist(null);
 		setCarToPark(false);
 		form.reset();
 	};
@@ -50,10 +49,7 @@ export const CreateNewUser = () => {
 				<TextInput name="name" placeholder="Nombre" />
 				<TextInput name="lastName" placeholder="Apellido" />
 				<div className="relative z-10">
-					<DatePicker
-						value={dateToAssist || undefined}
-						onValueChange={handleDateChange}
-					/>
+					<DatePicker value={dateToAssist} onValueChange={handleDateChange} />
 				</div>
 				<Checkbox
 					checked={carToPark}
