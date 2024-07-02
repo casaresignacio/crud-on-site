@@ -11,13 +11,6 @@ export const CreateNewUser = () => {
 
 	const [result, setResult] = useState<"ok" | "ko" | null>(null);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, checked } = e.target;
-		if (name === "carToPark") {
-			setCarToPark(checked);
-		}
-	};
-
 	const handleDateChange = (date: Date | undefined) => {
 		setDateToAssist(date);
 	};
@@ -30,15 +23,20 @@ export const CreateNewUser = () => {
 		const name = formData.get("name") as string;
 		const lastName = formData.get("lastName") as string;
 
-		if (!name || !lastName || !dateToAssist || !carToPark) {
+		if (!name || !lastName || !dateToAssist) {
 			return setResult("ko");
 		}
 
-		addUser({ name, lastName, dateToAssist, carToPark });
+		addUser({
+			name,
+			lastName,
+			dateToAssist: dateToAssist?.toISOString(),
+			carToPark,
+		});
 		setResult("ok");
-		form.reset();
 
 		setCarToPark(false);
+		setDateToAssist(undefined);
 		form.reset();
 	};
 
@@ -51,11 +49,17 @@ export const CreateNewUser = () => {
 				<div className="relative z-10">
 					<DatePicker value={dateToAssist} onValueChange={handleDateChange} />
 				</div>
-				<Checkbox
-					checked={carToPark}
-					onChange={handleChange}
-					name="carToPark"
-				/>
+
+				<div className="flex items-center">
+					<Checkbox
+						checked={carToPark}
+						onCheckedChange={() => setCarToPark(!carToPark)}
+						name="carToPark"
+					/>
+					<label className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+						Cochera
+					</label>
+				</div>
 				<div>
 					<Button type="submit" className="mt-4">
 						Asistir!

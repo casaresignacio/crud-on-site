@@ -9,7 +9,7 @@ import {
 	TableRow,
 	Title,
 } from "@tremor/react";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { useAppSelector } from "../hooks/store";
 import { useUserAction } from "../hooks/useUsersActions";
 
 export default function ListOfUsers() {

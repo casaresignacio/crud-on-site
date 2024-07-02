@@ -1,15 +1,18 @@
-import { type UserId, addNewUser, deleteUserById } from "../store/users/slice";
+import {
+	type User,
+	type UserId,
+	addNewUser,
+	deleteUserById,
+} from "../store/users/slice";
 import { useAppDispatch } from "./store";
 
 export const useUserAction = () => {
 	const dispatch = useAppDispatch();
 
-	const addUser = ({ name, lastName, dateToAssist, carToPark }) => {
-		const serializedDate = dateToAssist ? dateToAssist.toISOString() : null;
-		dispatch(
-			addNewUser({ name, lastName, dateToAssist: serializedDate, carToPark }),
-		);
+	const addUser = (user: User) => {
+		dispatch(addNewUser(user));
 	};
+
 	const removeUser = (id: UserId) => {
 		dispatch(deleteUserById(id));
 	};

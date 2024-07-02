@@ -29,7 +29,7 @@ const DEFAULT_STATE = [
 export interface User {
 	name: string;
 	lastName: string;
-	dateToAssist: Date;
+	dateToAssist?: string;
 	carToPark: boolean;
 }
 
